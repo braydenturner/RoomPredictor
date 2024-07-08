@@ -1,0 +1,16 @@
+//
+//  Config.xcconfig
+//  RoomPredictor
+//
+//  Created by Brayden Turner on 3/6/24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+// Signing
+CODE_SIGN_STYLE = Automatic
+CODE_SIGN_IDENTITY = -
+
+AD_HOC_CODE_SIGNING_ALLOWED = YES
+
