@@ -45,8 +45,9 @@ class BluetoothTool: NSObject, ObservableObject {
             let id = peripheral.id
             let rssi = peripheral.rssi
             let time = peripheral.time
+            let name = peripheral.name
             
-            trainingData.addPointToRoom(room: currentRoom, id:id, rssi:rssi, time: time)
+            trainingData.addPointToRoom(room: currentRoom, id:id, rssi:rssi, time: time, name:name)
         }
     }
     
@@ -82,6 +83,7 @@ class BluetoothDevice: NSObject, CBPeripheralDelegate {
     
     var rssi: Double
     var time: Double
+    var name: String
     var id: String {
         self.peripheral.identifier.uuidString
     }
@@ -90,6 +92,7 @@ class BluetoothDevice: NSObject, CBPeripheralDelegate {
         self.peripheral = peripheral
         self.rssi = rssi
         self.time = time
+        self.name = peripheral.name ?? ""
     }
 
     func updateRSSI() {

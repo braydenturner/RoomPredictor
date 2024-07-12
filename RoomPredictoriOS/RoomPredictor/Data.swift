@@ -14,6 +14,7 @@ class TrainingData: Codable, ObservableObject {
             var id: String
             var rssi: Double
             var time: Double
+            var name: String = ""
         }
         
         var id = UUID()
@@ -31,15 +32,16 @@ class TrainingData: Codable, ObservableObject {
         "room",
         "id",
         "rssi",
-        "time"
+        "time",
+        "name"
     ]
     
     init(rooms: [Room] = []) {
         self.rooms = rooms
     }
     
-    func addPointToRoom(room: String, id:String, rssi:Double, time:Double) {
-        let point = Room.Point(id: id, rssi: rssi, time: time)
+    func addPointToRoom(room: String, id:String, rssi:Double, time:Double, name:String) {
+        let point = Room.Point(id: id, rssi: rssi, time: time, name: name)
         if let ind = rooms.firstIndex(where: { $0.room == room }) {
             var room = rooms[ind]
             room.addPoint(point: point)

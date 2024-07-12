@@ -32,7 +32,7 @@ struct CSVDocument: FileDocument {
         
         for room in data.rooms {
             for point in room.points{
-                text.append("\(room.room),\(point.id),\(point.rssi),\(point.time)\n")
+                text.append("\(room.room),\(point.id),\(point.rssi),\(point.time),\(point.name)\n")
             }
         }
     }
