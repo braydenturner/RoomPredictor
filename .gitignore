@@ -1,1 +1,5 @@
 Model/lightning_logs/
+Model/logs/
+Model/data/
+Model/checkpoints/
+Model/.vscode
