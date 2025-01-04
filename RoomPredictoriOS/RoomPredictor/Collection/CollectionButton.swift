@@ -10,7 +10,7 @@ import UIKit
 
 struct CollectionButton: View {
     
-    @EnvironmentObject var bluetoothTool: BluetoothTool
+    var bluetoothTool: BluetoothTool
     
     @State private var animationAmount = 1.0
     
@@ -77,6 +77,5 @@ extension View {
 #endif
 
 #Preview {
-    CollectionButton()
-        .environmentObject(BluetoothTool())
+    CollectionButton(bluetoothTool: BluetoothTool())
 }

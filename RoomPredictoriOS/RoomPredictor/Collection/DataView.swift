@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DataView: View {
     
-    @EnvironmentObject var trainingData: TrainingData
+    var trainingData: TrainingData
     
     @State var submit: Bool = false
     @State var exporting: Bool = false
@@ -53,7 +53,6 @@ struct DataView: View {
 
 #if DEBUG
 #Preview {
-    DataView()
-        .environmentObject(TrainingData.example)
+    DataView(trainingData: TrainingData.example)
 }
 #endif

@@ -8,21 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    var bluetoothTool: BluetoothTool
+    
     var body: some View {
         TabView {
             Tab("Predict", systemImage: "square.split.bottomrightquarter") {
                 PredictView()
             }
             Tab("Train", systemImage: "rectangle.and.pencil.and.ellipsis") {
-                DataCollectionView()
-                    .environmentObject(TrainingData())
+                DataCollectionView(bluetoothTool:bluetoothTool, trainingData: TrainingData())
             }
         }
     }
 }
 
 #Preview {
-    ContentView()
-        .environmentObject(BluetoothTool())
-        .environmentObject(TrainingData())
+    ContentView(bluetoothTool: BluetoothTool())
 }

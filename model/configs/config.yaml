@@ -1,0 +1,38 @@
+trainer:
+  max_epochs: 10
+  accelerator: auto
+  devices: auto
+  logger: 
+    class_path: lightning.pytorch.loggers.TensorBoardLogger
+    init_args:
+      save_dir: "logs"
+      name: "classifier"
+  callbacks:
+    - class_path: lightning.pytorch.callbacks.ModelCheckpoint
+      init_args:
+        monitor: "val_accuracy"
+        mode: "max"
+    - class_path: lightning.pytorch.callbacks.ModelSummary
+      init_args:
+        max_depth: -1
+
+model:
+# Used for computing model size
+  num_inputs: 8 # should equal batch size
+  num_features: 237
+# Attributes
+  num_hidden_1: 180
+  num_hidden_2: 120
+  num_outputs: 5
+  lr: 1e-4
+  dropout: 0.3
+
+data:
+  file: "roomPredictionData2.csv"
+  ratios:
+  - 0.9
+  - 0.05
+  - 0.05
+  batch_size: 8
+  num_workers: 9
+  data_directory: "data"

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CurrentRoom: View {
     
-    @EnvironmentObject var bluetoothTool: BluetoothTool
+    @Bindable var bluetoothTool: BluetoothTool
     
     var body: some View {
             TextField("Room Name", text: $bluetoothTool.currentRoom)

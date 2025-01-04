@@ -9,18 +9,19 @@ import SwiftUI
 
 struct DataCollectionView: View {
     
-    @EnvironmentObject var bluetoothTool: BluetoothTool
-    @EnvironmentObject var trainingData: TrainingData
+    @Bindable var bluetoothTool: BluetoothTool
+    var trainingData: TrainingData
     
     var body: some View {
+        
         NavigationStack {
             VStack {
                 Section {
-                    CurrentRoom()
+                    CurrentRoom(bluetoothTool: bluetoothTool)
                 }
                 Spacer()
                 Section {
-                    CollectionButton()
+                    CollectionButton(bluetoothTool: bluetoothTool)
                         .disabled(bluetoothTool.currentRoom.isEmpty)
                 }
                 Spacer()
@@ -28,7 +29,7 @@ struct DataCollectionView: View {
             .navigationTitle("Training")
             .navigationBarTitleDisplayMode(.automatic)
             .toolbar {
-                NavigationLink(destination: DataView()) {
+                NavigationLink(destination: DataView(trainingData: trainingData)) {
                     Text("Data")
                 }
             }
@@ -52,8 +53,7 @@ struct DataCollectionView: View {
 
 #if DEBUG
 #Preview {
-    DataCollectionView()
-        .environmentObject(BluetoothTool())
-        .environmentObject(TrainingData.example)
+    DataCollectionView(bluetoothTool: BluetoothTool(), trainingData: TrainingData.example)
+
 }
 #endif

@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import CoreML
 
 struct PredictView: View {
+    
+    let classifier = try! RoomClassifier()
     
     var body: some View {
         NavigationStack {
@@ -20,3 +23,9 @@ struct PredictView: View {
     }
     
 }
+
+#if DEBUG
+#Preview {
+    PredictView()
+}
+#endif

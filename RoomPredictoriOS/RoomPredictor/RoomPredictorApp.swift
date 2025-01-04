@@ -10,12 +10,11 @@ import SwiftUI
 @main
 struct RoomPredictorApp: App {
     
-    @StateObject var bluetoothTool: BluetoothTool = BluetoothTool()
+    @State var bluetoothTool: BluetoothTool = BluetoothTool()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(bluetoothTool)
+            ContentView(bluetoothTool: bluetoothTool)
         }
     }
 }

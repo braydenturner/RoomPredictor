@@ -1,8 +1,6 @@
-import lightning as L
+import lightning
 from torchmetrics.functional import accuracy
 from typing import Optional
-import tensorboard
-from lightning.pytorch.loggers import TensorBoardLogger
 
 import pandas as pd
 from pandas import DataFrame
@@ -13,16 +11,29 @@ from torch import nn
 from torch.utils.data import random_split, DataLoader, Dataset
 
 
-class Classifier(L.LightningModule):
+class Classifier(lightning.LightningModule):
 
-    def __init__(self, num_hidden, num_outputs, lr: float, dropout=0.2):
+    def __init__(self, num_inputs: int, num_features: int, num_hidden_1: int, num_hidden_2: int, num_outputs: int, lr: float, dropout: float):
         super().__init__()
-        self.save_hyperparameters()
+        self.save_hyperparameters(
+            {
+                "num_inputs": num_inputs,
+                "num_features": num_features,
+                "num_hidden_1": num_hidden_1,
+                "num_hidden_2": num_hidden_2,
+                "num_outputs": num_outputs,
+                "dropout": dropout,
+                "lr": lr
+            }
+           
+        )
         self.model = nn.Sequential(
-            nn.LazyLinear(num_hidden), nn.ReLU(), nn.Dropout(dropout),
-            nn.LazyLinear(num_outputs)
+            nn.LazyLinear(num_hidden_1), nn.LayerNorm(num_hidden_1), nn.SELU(), nn.Dropout(dropout), # Layer 1
+            nn.LazyLinear(num_outputs) # Out
         )
         self.loss = torch.nn.CrossEntropyLoss()
+
+        self.example_input_array = torch.zeros([num_inputs, num_features], dtype=torch.float32)
 
     def forward(self, X):
         return self.model(X)
@@ -60,8 +71,8 @@ class Classifier(L.LightningModule):
 class Data(Dataset):
 
     def __init__(self, df: DataFrame, target_column: str):
-        self.X = torch.from_numpy(df.loc[:, df.columns != target_column].to_numpy().astype(np.float32))
-        self.y = torch.from_numpy(df.loc[:, target_column].to_numpy().astype(np.int8))
+        self.X = torch.from_numpy(df.loc[:, df.columns != target_column].to_numpy()).type(torch.float32)
+        self.y = torch.from_numpy(df.loc[:, target_column].to_numpy()).type(torch.long)
 
     def __getitem__(self, index):
         return self.X[index], self.y[index]
@@ -70,14 +81,15 @@ class Data(Dataset):
         return len(self.y)
 
 
-class RoomPredictorDataModule(L.LightningDataModule):
+class RoomPredictorDataModule(lightning.LightningDataModule):
 
-    def __init__(self, file: str, ratios: list = [.8, .1, .1], batch_size: int = 8):
+    def __init__(self, file: str, ratios: list, batch_size: int, num_workers: int, data_directory = "data"):
         super().__init__()
-        self.directory = "../data"
+        self.directory = data_directory
         self.file = file
         self.target_column = "room"
         self.batch_size = batch_size
+        self.num_workers = num_workers
 
         self.df: Optional[DataFrame] = None
 
@@ -127,13 +139,14 @@ class RoomPredictorDataModule(L.LightningDataModule):
         self.df = new_data
 
     def setup(self, stage: str):
-        train, val, test = self.split(self.ratios)
+        print(f"Splitting data with ratios {self.ratios}")
+        train, val, test = self.__split(self.ratios)
 
         self.train = Data(train.dataset, target_column=self.target_column)
         self.val = Data(val.dataset, target_column=self.target_column)
         self.test = Data(test.dataset, target_column=self.target_column)
 
-    def split(self, ratios: list):
+    def __split(self, ratios: list):
         train_perc, val_perc, test_perc = ratios
         amount = len(self.df)
 
@@ -145,18 +158,16 @@ class RoomPredictorDataModule(L.LightningDataModule):
             self.df,
             (train_amount, val_amount, test_amount),
             # If we have a seed, pass that in to a torch generator
-            generator=(
-                torch.Generator().manual_seed(self.seed)
-                if self.seed
-                else None))
+            generator=torch.Generator()
+        )
 
         return train, val, test
 
     def train_dataloader(self):
-        return DataLoader(self.train, batch_size=self.batch_size, shuffle=True)
+        return DataLoader(self.train, batch_size=self.batch_size, shuffle=True, num_workers=9, persistent_workers=True)
 
     def val_dataloader(self):
-        return DataLoader(self.val, batch_size=self.batch_size, shuffle=False)
+        return DataLoader(self.val, batch_size=self.batch_size, shuffle=False, num_workers=9, persistent_workers=True)
 
     def test_dataloader(self):
-        return DataLoader(self.test, batch_size=self.batch_size, shuffle=False)
+        return DataLoader(self.test, batch_size=self.batch_size, shuffle=False, num_workers=9, persistent_workers=True)

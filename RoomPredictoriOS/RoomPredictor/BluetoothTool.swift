@@ -7,18 +7,20 @@
 
 import SwiftUI
 import CoreBluetooth
+import Observation
 import os.log
 
-class BluetoothTool: NSObject, ObservableObject {
+@Observable class BluetoothTool: NSObject {
     
     
-    @Published var collecting: Bool = false
-    @Published var trainingFinished: Bool = false
+    var collecting: Bool = false
+    var trainingFinished: Bool = false
     
-    @Published var currentRoom: String = ""
+    var currentRoom: String = ""
     
-    @Published var peripherals: [BluetoothDevice] = []
+    var peripherals: [BluetoothDevice] = []
     
+    @ObservationIgnored
     private var cbManager: CBCentralManager!
     
     override init() {

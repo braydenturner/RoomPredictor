@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD11FB3E2CD32FB600C41758 /* RoomClassifier.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = DD11FB3D2CD32FB600C41758 /* RoomClassifier.mlpackage */; };
 		DD4FDD582C35EB1D0015AD75 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4FDD572C35EB1D0015AD75 /* DataView.swift */; };
 		DD4FDD5A2C35FD650015AD75 /* CSVDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4FDD592C35FD650015AD75 /* CSVDocument.swift */; };
 		DD81192D2B92A54B00E95458 /* PredictView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD81192C2B92A54300E95458 /* PredictView.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DD11FB3D2CD32FB600C41758 /* RoomClassifier.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = RoomClassifier.mlpackage; sourceTree = "<group>"; };
 		DD4FDD572C35EB1D0015AD75 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
 		DD4FDD592C35FD650015AD75 /* CSVDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVDocument.swift; sourceTree = "<group>"; };
 		DD81192C2B92A54300E95458 /* PredictView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictView.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				DD8119302B92A58C00E95458 /* Views */,
 				DD8119332B93C81E00E95458 /* Support */,
 				DDF364B22B76A92B001FBDD0 /* Assets.xcassets */,
+				DD11FB3D2CD32FB600C41758 /* RoomClassifier.mlpackage */,
 				DDF364B42B76A92B001FBDD0 /* RoomPredictor.entitlements */,
 				DDF364B52B76A92B001FBDD0 /* Preview Content */,
 				DDCBB4D42B9938DA00F203DD /* Config.xcconfig */,
@@ -333,6 +336,7 @@
 				DD8119322B93C81500E95458 /* BluetoothTool.swift in Sources */,
 				DD8119392B94088300E95458 /* CurrentRoom.swift in Sources */,
 				DDF364AF2B76A926001FBDD0 /* RoomPredictorApp.swift in Sources */,
+				DD11FB3E2CD32FB600C41758 /* RoomClassifier.mlpackage in Sources */,
 				DD81192F2B92A55700E95458 /* DataCollectionView.swift in Sources */,
 				DD4FDD582C35EB1D0015AD75 /* DataView.swift in Sources */,
 				DD91ED182B9946A3008342DB /* Logger.swift in Sources */,

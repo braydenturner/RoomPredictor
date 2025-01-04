@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class TrainingData: Codable, ObservableObject {
+class TrainingData: Codable {
     
     struct Room: Codable, Identifiable {
         struct Point: Codable {
